@@ -1,61 +1,776 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>MSビジネスサポート</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MSビジネスサポート | 中小企業DX・業務効率化支援</title>
+  <meta name="description" content="MSビジネスサポートは、小さな会社のPC作業・Excel・請求書・帳票作成・SNS/WEB発信・ソフトウェア開発を支援します。" />
+
   <style>
+    :root {
+      --navy: #0b2d4d;
+      --navy-2: #123d66;
+      --gold: #c89b3c;
+      --gold-light: #e8c875;
+      --charcoal: #222831;
+      --gray: #f4f6f8;
+      --line: #e3e7ec;
+      --white: #ffffff;
+      --text: #1f2933;
+      --muted: #64748b;
+      --shadow: 0 18px 45px rgba(11, 45, 77, 0.14);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: sans-serif;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.75;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(227,231,236,0.9);
+    }
+
+    .header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+
+    .brand img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 10px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 0.92rem;
+      color: #344054;
+      white-space: nowrap;
+    }
+
+    .nav a {
+      transition: color 0.2s ease;
+    }
+
+    .nav a:hover {
+      color: var(--gold);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 680px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(7, 29, 52, 0.92) 0%, rgba(11, 45, 77, 0.75) 38%, rgba(11, 45, 77, 0.28) 68%, rgba(255,255,255,0.1) 100%),
+        url("assets/hero.png") center / cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 15% 18%, rgba(232,200,117,0.22), transparent 28%),
+                  linear-gradient(180deg, transparent 68%, rgba(255,255,255,0.96) 100%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(1120px, calc(100% - 44px));
+      margin: 0 auto;
+      padding: 96px 0 128px;
+    }
+
+    .hero-content {
+      max-width: 650px;
+      color: var(--white);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border: 1px solid rgba(232,200,117,0.42);
+      border-radius: 999px;
+      color: #fff3c4;
+      background: rgba(255,255,255,0.08);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--gold-light);
+      box-shadow: 0 0 18px rgba(232,200,117,0.85);
+    }
+
+    .hero h1 {
+      margin: 24px 0 18px;
+      font-size: clamp(2.25rem, 5vw, 4.35rem);
+      line-height: 1.12;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-lead {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      color: rgba(255,255,255,0.9);
+      margin: 0 0 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #18212b;
+      box-shadow: 0 14px 32px rgba(200, 155, 60, 0.28);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.45);
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px rgba(11,45,77,0.22);
+    }
+
+    .section {
+      padding: 82px 22px;
+    }
+
+    .section.alt {
+      background: linear-gradient(180deg, #f7f9fb 0%, #fff 100%);
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 42px;
+    }
+
+    .section-label {
+      color: var(--gold);
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(1.8rem, 3vw, 2.55rem);
+      line-height: 1.35;
+    }
+
+    .section-head p {
+      margin: 14px auto 0;
+      max-width: 760px;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: 0 8px 28px rgba(16, 24, 40, 0.06);
+    }
+
+    .card h3 {
+      color: var(--navy);
+      font-size: 1.15rem;
+      margin: 0 0 10px;
+    }
+
+    .card p {
+      color: #526173;
+      margin: 0;
+      font-size: 0.96rem;
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(11,45,77,0.1), rgba(200,155,60,0.18));
+      color: var(--navy);
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .service-list {
+      display: grid;
+      gap: 12px;
       margin: 0;
       padding: 0;
-      background: #f7f7f7;
-      color: #222;
+      list-style: none;
     }
-    header {
-      background: #111;
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
+
+    .service-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--line);
     }
-    main {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
+
+    .service-list li:last-child {
+      border-bottom: 0;
     }
-    h1 {
+
+    .check {
+      color: var(--gold);
+      font-weight: 900;
+    }
+
+    .video-card {
+      position: relative;
+      min-height: 230px;
+      padding: 24px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background:
+        linear-gradient(160deg, rgba(11,45,77,0.92), rgba(18,61,102,0.82)),
+        linear-gradient(45deg, rgba(200,155,60,0.2), transparent);
+      color: #fff;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 48px rgba(11,45,77,0.24);
+    }
+
+    .video-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -40% auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(232,200,117,0.16);
+    }
+
+    .video-tag {
+      align-self: flex-start;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff3c4;
+    }
+
+    .video-card h3 {
+      margin: 22px 0 8px;
+      color: #fff;
+      font-size: 1.16rem;
+      line-height: 1.45;
+    }
+
+    .video-card p {
+      margin: 0;
+      color: rgba(255,255,255,0.82);
+      font-size: 0.92rem;
+    }
+
+    .video-link {
+      margin-top: 22px;
+      color: #fff3c4;
+      font-weight: 800;
+      position: relative;
+      z-index: 2;
+    }
+
+    .profile {
+      display: grid;
+      grid-template-columns: 1fr 1.45fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .profile-box {
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--navy), var(--charcoal));
+      color: #fff;
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .profile-box .role {
+      color: #fff3c4;
+      font-weight: 800;
       margin-bottom: 10px;
     }
-    .card {
-      background: white;
-      padding: 24px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    .profile-box .name {
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .profile-box .roman {
+      color: rgba(255,255,255,0.74);
+      font-weight: 700;
+    }
+
+    .flow {
+      counter-reset: flow;
+    }
+
+    .flow .card {
+      position: relative;
+      padding-left: 76px;
+    }
+
+    .flow .card::before {
+      counter-increment: flow;
+      content: counter(flow);
+      position: absolute;
+      left: 24px;
+      top: 26px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .contact {
+      background: linear-gradient(135deg, var(--navy), #081b2f);
+      color: #fff;
+      border-radius: 28px;
+      padding: 42px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .contact h2 {
+      color: #fff;
+    }
+
+    .contact p {
+      color: rgba(255,255,255,0.82);
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 10px;
+      color: rgba(255,255,255,0.9);
+      font-weight: 700;
+    }
+
+    .footer {
+      padding: 30px 22px;
+      background: #071d34;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.88rem;
+      text-align: center;
+    }
+
+    @media (max-width: 920px) {
+      .nav {
+        display: none;
+      }
+
+      .hero {
+        min-height: 620px;
+        background-position: center;
+      }
+
+      .hero-content {
+        max-width: 100%;
+      }
+
+      .grid-3,
+      .grid-4,
+      .profile,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .header-inner {
+        padding: 10px 16px;
+      }
+
+      .brand span {
+        font-size: 0.95rem;
+      }
+
+      .brand img {
+        width: 44px;
+        height: 44px;
+      }
+
+      .hero {
+        min-height: 650px;
+        background:
+          linear-gradient(180deg, rgba(7, 29, 52, 0.92) 0%, rgba(11, 45, 77, 0.82) 55%, rgba(11,45,77,0.46) 100%),
+          url("assets/hero.png") center / cover no-repeat;
+      }
+
+      .hero-inner {
+        width: min(100% - 32px, 1120px);
+        padding: 76px 0 104px;
+      }
+
+      .section {
+        padding: 64px 16px;
+      }
+
+      .card,
+      .contact,
+      .profile-box {
+        padding: 22px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <h1>MSビジネスサポート</h1>
-    <p>中小企業DX・業務効率化支援</p>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="MSビジネスサポート トップへ">
+        <img src="assets/logo.png" alt="MSビジネスサポート ロゴ" />
+        <span>MSビジネスサポート</span>
+      </a>
+      <nav class="nav" aria-label="主要メニュー">
+        <a href="#services">できること</a>
+        <a href="#videos">動画事例</a>
+        <a href="#flow">進め方</a>
+        <a href="#profile">代表</a>
+        <a href="#contact">お問い合わせ</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <div class="card">
-      <h2>事業内容</h2>
-      <p>パソコン作業の効率化、Excel・請求書・帳票作成の自動化、SNS・WEB発信サポート、ソフトウェア開発・IT相談を行っています。</p>
-    </div>
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="eyebrow">中小企業DX・業務効率化支援</div>
+          <h1>小さな会社の<br>「困った」を<br>デジタルで解決します</h1>
+          <p class="hero-lead">
+            Excel、請求書、帳票作成、ファイル整理、メール送信、SNS・WEB発信まで。
+            現場のやり方に合わせて、無理なく使える仕組みを一緒に作ります。
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">相談してみる</a>
+            <a class="btn btn-outline" href="#videos">動画事例を見る</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <div class="card">
-      <h2>ご相談ください</h2>
-      <p>小さな会社の「困った」をデジタルで解決します。お客様のご要望にあわせた提案をいたします。</p>
-    </div>
+    <section class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">Problems</div>
+          <h2>こんなお悩みはありませんか？</h2>
+          <p>日々のPC作業は、少し仕組みを変えるだけで大きく時短できることがあります。</p>
+        </div>
 
-    <div class="card">
-      <h2>お問い合わせ</h2>
-      <p>E-mail: masato.some@gmail.com</p>
-    </div>
+        <div class="grid grid-3">
+          <div class="card">
+            <div class="icon">01</div>
+            <h3>毎月の請求書作成に時間がかかる</h3>
+            <p>Excel入力、PDF作成、保存、メール作成までの定型作業を効率化できます。</p>
+          </div>
+          <div class="card">
+            <div class="icon">02</div>
+            <h3>Excelの転記・集計が多い</h3>
+            <p>複数シートやCSVからの転記、集計、チェック作業を自動化します。</p>
+          </div>
+          <div class="card">
+            <div class="icon">03</div>
+            <h3>ITやAIを使いたいが何から始めればよいかわからない</h3>
+            <p>現場の業務を確認し、すぐに効果が出やすいところから提案します。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">Services</div>
+          <h2>できること</h2>
+          <p>中小企業・個人事業主の方が、今ある環境で始めやすい支援を行います。</p>
+        </div>
+
+        <div class="grid grid-4">
+          <div class="card">
+            <h3>PC作業の効率化</h3>
+            <ul class="service-list">
+              <li><span class="check">✓</span><span>ファイル整理・一括処理</span></li>
+              <li><span class="check">✓</span><span>定型作業の自動化</span></li>
+              <li><span class="check">✓</span><span>作業手順の見直し</span></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Excel・帳票自動化</h3>
+            <ul class="service-list">
+              <li><span class="check">✓</span><span>請求書・見積書作成</span></li>
+              <li><span class="check">✓</span><span>集計表・管理表の改善</span></li>
+              <li><span class="check">✓</span><span>マクロ・ツール作成</span></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>SNS・WEB発信</h3>
+            <ul class="service-list">
+              <li><span class="check">✓</span><span>投稿内容の整理</span></li>
+              <li><span class="check">✓</span><span>画像・文章作成支援</span></li>
+              <li><span class="check">✓</span><span>ホームページ作成相談</span></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>ソフトウェア開発・IT相談</h3>
+            <ul class="service-list">
+              <li><span class="check">✓</span><span>小規模業務ツール作成</span></li>
+              <li><span class="check">✓</span><span>既存業務のシステム化</span></li>
+              <li><span class="check">✓</span><span>IT導入前の相談</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="videos">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">Demo Videos</div>
+          <h2>DX・PC作業効率化の動画事例</h2>
+          <p>実際に試作したツールをPC上で動かし、作業がどう変わるかを短い動画で紹介します。</p>
+        </div>
+
+        <div class="grid grid-4">
+          <!-- YouTube等で公開後、href="#" を実際の動画URLに差し替えてください -->
+          <a class="video-card" href="#" target="_blank" rel="noopener">
+            <span class="video-tag">準備中</span>
+            <div>
+              <h3>請求書PDFをワンクリックで自動作成</h3>
+              <p>一覧表から請求書PDFをまとめて作成し、ファイル名まで自動整理する例です。</p>
+              <div class="video-link">動画を見る →</div>
+            </div>
+          </a>
+
+          <a class="video-card" href="#" target="_blank" rel="noopener">
+            <span class="video-tag">準備中</span>
+            <div>
+              <h3>Excel転記作業を10秒に短縮</h3>
+              <p>複数の表から必要な情報を取り出し、別シートへ自動転記する例です。</p>
+              <div class="video-link">動画を見る →</div>
+            </div>
+          </a>
+
+          <a class="video-card" href="#" target="_blank" rel="noopener">
+            <span class="video-tag">準備中</span>
+            <div>
+              <h3>メール下書きをまとめて自動作成</h3>
+              <p>顧客ごとに宛先・件名・本文・添付ファイルを変えてメール下書きを作る例です。</p>
+              <div class="video-link">動画を見る →</div>
+            </div>
+          </a>
+
+          <a class="video-card" href="#" target="_blank" rel="noopener">
+            <span class="video-tag">準備中</span>
+            <div>
+              <h3>ファイル名をルール通りに一括整理</h3>
+              <p>スキャンPDFや写真ファイルを、日付・取引先名・内容で一括リネームする例です。</p>
+              <div class="video-link">動画を見る →</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="flow">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">Flow</div>
+          <h2>ご相談から改善までの流れ</h2>
+          <p>大きなシステムをいきなり導入するのではなく、現場の作業に合わせて小さく始めます。</p>
+        </div>
+
+        <div class="grid grid-3 flow">
+          <div class="card">
+            <h3>ヒアリング</h3>
+            <p>現在の作業手順、使っているExcelや帳票、困っている点を確認します。</p>
+          </div>
+          <div class="card">
+            <h3>改善案の提案</h3>
+            <p>費用対効果の高い作業から、現実的に始められる改善案を提案します。</p>
+          </div>
+          <div class="card">
+            <h3>試作・導入支援</h3>
+            <p>小さなツールやテンプレートを作成し、使いながら調整していきます。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="profile">
+      <div class="container">
+        <div class="profile">
+          <div class="profile-box">
+            <div class="role">代表</div>
+            <div class="name">染　真人</div>
+            <div class="roman">Masato Some</div>
+          </div>
+
+          <div>
+            <div class="section-label">Profile</div>
+            <h2>現場に合わせた、使いやすいDX支援を行います</h2>
+            <p>
+              ITエンジニアとしての経験を活かし、Excel業務、帳票作成、定型作業、データ整理など、
+              中小企業の日常業務に近いところから改善を支援します。
+            </p>
+            <p>
+              「難しいシステムを入れる」ことよりも、「今の仕事が少し楽になる」「ミスが減る」
+              「担当者が使い続けられる」ことを大切にしています。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact">
+          <div>
+            <div class="section-label">Contact</div>
+            <h2>まずはお気軽にご相談ください</h2>
+            <p>
+              「この作業は自動化できる？」「Excelをもう少し使いやすくしたい」
+              「請求書作成を楽にしたい」など、具体的でなくても大丈夫です。
+            </p>
+            <a class="btn btn-primary" href="mailto:masato.some@gmail.com">メールで相談する</a>
+          </div>
+
+          <div class="contact-list">
+            <div>MSビジネスサポート</div>
+            <div>代表：染 真人</div>
+            <div>〒894-0032 鹿児島県奄美市名瀬伊津部町8-23</div>
+            <div>Mobile：<a href="tel:08042968472">080-4296-8472</a></div>
+            <div>E-mail：<a href="mailto:masato.some@gmail.com">masato.some@gmail.com</a></div>
+            <div>WEB：<a href="https://msbizsupport.com">https://msbizsupport.com</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="footer">
+    <small>&copy; MS Biz Support. All rights reserved.</small>
+  </footer>
 </body>
 </html>
